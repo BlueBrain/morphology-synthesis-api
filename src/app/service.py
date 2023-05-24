@@ -8,6 +8,8 @@ import tmd.view
 
 from app import utils
 
+# pylint: disable=unused-argument
+
 
 def make_synthesis_inputs(
     parameters_file: Path,
@@ -18,30 +20,18 @@ def make_synthesis_inputs(
     step_size: float,
     radius: float,
 ):
+    """Generate and update the synthesis inputs."""
     parameters = utils.load_json(parameters_file)
-    _modify_parameters(parameters, randomness, orientation, step_size, radius)
+    # _modify_parameters(parameters, randomness, orientation, step_size, radius)
 
     distributions = utils.load_json(distributions_file)
-    _modify_distributions(distributions, total_extent)
+    # _modify_distributions(distributions, total_extent)
 
     return parameters, distributions
 
 
-def _modify_parameters(
-    parameters: dict,
-    randomness: float,
-    orientation: list[float, float, float],
-    step_size: float,
-    radius: float,
-) -> None:
-    pass
-
-
-def _modify_distributions(distributions: dict, total_extent: float):
-    pass
-
-
 def synthesize_morphology(parameters, distributions):
+    """Grow a morphology using the parameters and distributions."""
     grower = neurots.NeuronGrower(parameters, distributions)
     grower.grow()
 
@@ -49,9 +39,13 @@ def synthesize_morphology(parameters, distributions):
 
 
 def make_figure(morphology) -> plt.Figure:
+    """Make an analysis figure."""
     barcode = tmd.methods.get_ph_neuron(morphology, neurite_type="dendrites")
 
     fig = plt.figure()
+
+    # ruff: noqa: F841
+    # pylint: disable=unused-variable
 
     ax1 = fig.add_subplot(321)
     tmd.view.plot.barcode(

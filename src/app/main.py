@@ -20,6 +20,8 @@ app.add_middleware(
 
 
 class Config(BaseModel):
+    """Config model."""
+
     parameters_file: Path
     distributions_file: Path
     total_extent: float
@@ -49,7 +51,7 @@ async def version() -> dict:
 
 @app.post("/synthesize_morphology")
 async def synthesize_morphology(config: Config):
-
+    """Synthesize a morphology and return an analysis figure."""
     parameters, distributions = service.make_synthesis_inputs(
         parameters_file=config.parameters_file,
         distributions_file=config.distributions_file,
