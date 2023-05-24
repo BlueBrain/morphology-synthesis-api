@@ -33,7 +33,7 @@ def test_version_get(monkeypatch):
 
 def test_synthesize(bio_params_file, bio_distributions_file):
     response = client.post(
-        "/synthesize",
+        "/synthesize_morphology",
         json={
             "parameters_file": str(bio_params_file),
             "distributions_file": str(bio_distributions_file),
