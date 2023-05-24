@@ -1,0 +1,19 @@
+include:
+- project: cs/gitlabci-templates
+  file: /build-image-using-kaniko.yml
+- project: nse/ci
+  file:
+  - /ci/lib/tox-docker.yml
+  - /ci/jobs/lint.yml
+  - /ci/jobs/coverage.yml
+  - /ci/jobs/check-packaging.yml
+
+
+variables:
+  FF_USE_FASTZIP: 'true'
+  ARTIFACT_COMPRESSION_LEVEL: 'fast'
+  CACHE_COMPRESSION_LEVEL: 'fast'
+  KUBERNETES_MEMORY_REQUEST: 1Gi
+  KUBERNETES_MEMORY_LIMIT: 4Gi
+  KUBERNETES_CPU_REQUEST: 1
+  KUBERNETES_CPU_LIMIT: 2
