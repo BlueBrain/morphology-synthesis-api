@@ -18,19 +18,15 @@ def test_make_synthesis_inputs(bio_params_file, bio_distributions_file):
         radius=0.5,
     )
 
-
-def test_synthesize_morphology(bio_params_file, bio_distributions_file):
-    morphology = test_module.synthesize_morphology(
-        parameters=bio_params_file,
-        distributions=bio_distributions_file,
-    )
-    assert morphology is not None
+    assert isinstance(parameters, dict)
+    assert isinstance(distributions, dict)
 
 
-def test_make_figure(bio_params, bio_distributions):
-    morphology = test_module.synthesize_morphology(
-        parameters=bio_params,
-        distributions=bio_distributions,
-    )
+def test_synthesize_morphology(bio_params, bio_distributions, morphology):
+    result = test_module.synthesize_morphology(bio_params, bio_distributions)
+    assert result.neurites
 
+
+def test_make_figure(morphology):
     figure = test_module.make_figure(morphology)
+    assert figure.get_axes()

@@ -1,5 +1,7 @@
 from pathlib import Path
+import morphio
 import pytest
+import tmd.io
 
 from app.utils import load_json
 
@@ -25,3 +27,14 @@ def bio_distributions_file():
 @pytest.fixture(scope="session")
 def bio_distributions(bio_distributions_file):
     return load_json(bio_distributions_file)
+
+
+@pytest.fixture(scope="session")
+def morphology_file():
+    return DATA_DIR / "bio_rat_L5_TPC_B.h5"
+
+
+@pytest.fixture(scope="session")
+def morphology(morphology_file):
+    return tmd.io.load_neuron_from_morphio(str(morphology_file))
+

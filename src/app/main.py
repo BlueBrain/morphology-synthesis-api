@@ -24,11 +24,11 @@ class Config(BaseModel):
 
     parameters_file: Path
     distributions_file: Path
-    total_extent: float
-    randomness: float
-    orientation: tuple[float, float, float]
-    step_size: float
-    radius: float
+    total_extent: float | None = None
+    randomness: float | None = None
+    orientation: tuple[float, float, float] | None = None
+    step_size: float | None = None
+    radius: float | None = None
 
 
 @app.get("/")

@@ -34,7 +34,6 @@ def synthesize_morphology(parameters, distributions):
     """Grow a morphology using the parameters and distributions."""
     grower = neurots.NeuronGrower(parameters, distributions)
     grower.grow()
-
     return tmd.io.load_neuron_from_morphio(grower.neuron.as_immutable())
 
 
