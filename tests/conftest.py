@@ -39,13 +39,15 @@ def synthesis_files(bio_params_file, bio_distributions_file):
 
 @pytest.fixture
 def synthesis_overrides():
-    return schemas.SynthesisOverrides(
-        total_extent=100.0,
-        randomness=0.001,
-        orientation=(0.0, 0.0, 1.0),
-        step_size=1.0,
-        radius=0.5,
-    )
+    return {
+        "apical_dendrite": schemas.SynthesisOverrides(
+            total_extent=100.0,
+            randomness=0.001,
+            orientation=(0.0, 0.0, 1.0),
+            step_size=1.0,
+            radius=0.5,
+        )
+    }
 
 
 @pytest.fixture(scope="session")

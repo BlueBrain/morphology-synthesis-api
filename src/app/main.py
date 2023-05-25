@@ -6,7 +6,7 @@ from fastapi.responses import Response
 
 from app import serialize, service
 from app.constants import COMMIT_SHA, DEBUG, ORIGINS, PROJECT_PATH
-from app.schemas import SynthesisFiles, SynthesisOverrides
+from app.schemas import SynthesisWithFilesInputs
 
 app = FastAPI(debug=DEBUG)
 app.add_middleware(
@@ -37,9 +37,11 @@ async def version() -> dict:
 
 
 @app.post("/synthesis-with-files")
-async def synthesis_with_files(files: SynthesisFiles, overrides: SynthesisOverrides | None = None):
+async def synthesis_with_files(synthesis_inputs: SynthesisWithFilesInputs):
     """Synthesize a morphology and return an analysis figure."""
-    parameters, distributions = service.make_synthesis_inputs(files, overrides)
+    parameters, distributions = service.make_synthesis_inputs(
+        synthesis_inputs.files, synthesis_inputs.overrides
+    )
 
     morphology = service.synthesize_morphology(parameters, distributions)
 

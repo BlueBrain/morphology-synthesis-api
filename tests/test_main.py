@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
+from app import schemas
 import app.main as test_module
 
 client = TestClient(test_module.app)
@@ -31,10 +32,14 @@ def test_version_get(monkeypatch):
     assert response.json() == {"project": project_path, "commit_sha": commit_sha}
 
 
-def test_synthesis_with_files(synthesis_files, synthesis_overrides):
-    json = {
-        "files": synthesis_files.dict(),
-        "overrides": synthesis_overrides.dict(),
-    }
-    response = client.post("/synthesis-with-files", json=json)
+@pytest.fixture
+def synthesis_inputs(synthesis_files, synthesis_overrides):
+    return schemas.SynthesisWithFilesInputs(
+        files=synthesis_files,
+        overrides=synthesis_overrides,
+    )
+
+
+def test_synthesis_with_files(synthesis_inputs):
+    response = client.post("/synthesis-with-files", data=synthesis_inputs.json())
     assert response.status_code == 200

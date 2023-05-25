@@ -11,14 +11,15 @@ from app.schemas import SynthesisFiles, SynthesisOverrides
 # pylint: disable=unused-argument
 
 
-def make_synthesis_inputs(files: SynthesisFiles, overrides: SynthesisOverrides | None = None):
+def make_synthesis_inputs(
+    files: SynthesisFiles, overrides: dict[str, SynthesisOverrides] | None = None
+) -> tuple[dict, dict]:
     """Generate and update the synthesis inputs."""
     parameters = utils.load_json(files.parameters_file)
     distributions = utils.load_json(files.distributions_file)
 
     # if overrides:
-    #    _modify_parameters(parameters, overrides)
-    #    _modify_distributions(distributions, overrides)
+    #    parameters, distribution = _apply_overrides(parameters, distributions, overrides)
 
     return parameters, distributions
 
