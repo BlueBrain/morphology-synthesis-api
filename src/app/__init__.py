@@ -1,1 +1,1 @@
-"""Sonata Cell Position app."""
+"""Morphology synthesis app."""

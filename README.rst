@@ -1,4 +1,5 @@
-sonata-cell-position
+morphology-synthesis
 ====================
 
-sonata-cell-position web API
+morphology-synthesis web API
+
