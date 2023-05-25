@@ -1,13 +1,12 @@
 """API entry points."""
-from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
-from pydantic import BaseModel
 
 from app import serialize, service
 from app.constants import COMMIT_SHA, DEBUG, ORIGINS, PROJECT_PATH
+from app.schemas import SynthesisFiles, SynthesisOverrides
 
 app = FastAPI(debug=DEBUG)
 app.add_middleware(
@@ -17,18 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-class Config(BaseModel):
-    """Config model."""
-
-    parameters_file: Path
-    distributions_file: Path
-    total_extent: float | None = None
-    randomness: float | None = None
-    orientation: tuple[float, float, float] | None = None
-    step_size: float | None = None
-    radius: float | None = None
 
 
 @app.get("/")
@@ -49,18 +36,10 @@ async def version() -> dict:
     }
 
 
-@app.post("/synthesize_morphology")
-async def synthesize_morphology(config: Config):
+@app.post("/synthesis-with-files")
+async def synthesis_with_files(files: SynthesisFiles, overrides: SynthesisOverrides | None = None):
     """Synthesize a morphology and return an analysis figure."""
-    parameters, distributions = service.make_synthesis_inputs(
-        parameters_file=config.parameters_file,
-        distributions_file=config.distributions_file,
-        total_extent=config.total_extent,
-        randomness=config.randomness,
-        orientation=config.orientation,
-        step_size=config.step_size,
-        radius=config.radius,
-    )
+    parameters, distributions = service.make_synthesis_inputs(files, overrides)
 
     morphology = service.synthesize_morphology(parameters, distributions)
 

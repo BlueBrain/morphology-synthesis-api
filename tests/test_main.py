@@ -31,17 +31,10 @@ def test_version_get(monkeypatch):
     assert response.json() == {"project": project_path, "commit_sha": commit_sha}
 
 
-def test_synthesize(bio_params_file, bio_distributions_file):
-    response = client.post(
-        "/synthesize_morphology",
-        json={
-            "parameters_file": str(bio_params_file),
-            "distributions_file": str(bio_distributions_file),
-            "total_extent": 100.0,
-            "randomness": 0.001,
-            "orientation": (0.0, 0.0, 1.0),
-            "step_size": 1.0,
-            "radius": 0.5,
-        },
-    )
+def test_synthesis_with_files(synthesis_files, synthesis_overrides):
+    json = {
+        "files": synthesis_files.dict(),
+        "overrides": synthesis_overrides.dict(),
+    }
+    response = client.post("/synthesis-with-files", json=json)
     assert response.status_code == 200

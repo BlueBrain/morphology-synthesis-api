@@ -7,17 +7,11 @@ import app.service as test_module
 from app import service as test_module
 
 
-def test_make_synthesis_inputs(bio_params_file, bio_distributions_file):
+def test_make_synthesis_inputs(synthesis_files, synthesis_overrides):
     parameters, distributions = test_module.make_synthesis_inputs(
-        parameters_file=bio_params_file,
-        distributions_file=bio_distributions_file,
-        total_extent=100.0,
-        randomness=0.001,
-        orientation=(0.0, 0.0, 1.0),
-        step_size=1.0,
-        radius=0.5,
+        files=synthesis_files,
+        overrides=synthesis_overrides,
     )
-
     assert isinstance(parameters, dict)
     assert isinstance(distributions, dict)
 

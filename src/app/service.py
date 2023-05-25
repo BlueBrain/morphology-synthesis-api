@@ -1,5 +1,4 @@
 """Service functions."""
-from pathlib import Path
 
 import neurots
 import pylab as plt
@@ -7,37 +6,31 @@ import tmd.io
 import tmd.view
 
 from app import utils
+from app.schemas import SynthesisFiles, SynthesisOverrides
 
 # pylint: disable=unused-argument
 
 
-def make_synthesis_inputs(
-    parameters_file: Path,
-    distributions_file: Path,
-    total_extent: float,
-    randomness: float,
-    orientation: tuple[float, float, float],
-    step_size: float,
-    radius: float,
-):
+def make_synthesis_inputs(files: SynthesisFiles, overrides: SynthesisOverrides | None = None):
     """Generate and update the synthesis inputs."""
-    parameters = utils.load_json(parameters_file)
-    # _modify_parameters(parameters, randomness, orientation, step_size, radius)
+    parameters = utils.load_json(files.parameters_file)
+    distributions = utils.load_json(files.distributions_file)
 
-    distributions = utils.load_json(distributions_file)
-    # _modify_distributions(distributions, total_extent)
+    # if overrides:
+    #    _modify_parameters(parameters, overrides)
+    #    _modify_distributions(distributions, overrides)
 
     return parameters, distributions
 
 
-def synthesize_morphology(parameters, distributions):
+def synthesize_morphology(parameters: dict, distributions: dict) -> tmd.Neuron:
     """Grow a morphology using the parameters and distributions."""
     grower = neurots.NeuronGrower(parameters, distributions)
     grower.grow()
     return tmd.io.load_neuron_from_morphio(grower.neuron.as_immutable())
 
 
-def make_figure(morphology) -> plt.Figure:
+def make_figure(morphology: tmd.Neuron) -> plt.Figure:
     """Make an analysis figure."""
     barcode = tmd.methods.get_ph_neuron(morphology, neurite_type="dendrites")
 
