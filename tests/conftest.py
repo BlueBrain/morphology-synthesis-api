@@ -41,7 +41,7 @@ def synthesis_files(bio_params_file, bio_distributions_file):
 def synthesis_overrides():
     return {
         "apical_dendrite": schemas.SynthesisOverrides(
-            total_extent=100.0,
+            total_extent=10.0,
             randomness=0.001,
             orientation=(0.0, 0.0, 1.0),
             step_size=1.0,
