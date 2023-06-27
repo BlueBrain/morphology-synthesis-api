@@ -2,6 +2,7 @@ from copy import deepcopy
 
 import pytest
 import numpy as np
+import pylab as plt
 from numpy import testing as npt
 from pathlib import Path
 
@@ -74,5 +75,7 @@ def test_synthesize_morphology(bio_params, bio_distributions, morphology):
 
 
 def test_make_figure(morphology):
-    figure = test_module.make_figure(morphology)
-    assert figure.get_axes()
+    figures = test_module.make_figure(morphology)
+    assert isinstance(figures, dict)
+    for fig in figures.values():
+        assert isinstance(fig, plt.Figure)

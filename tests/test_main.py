@@ -1,5 +1,9 @@
+import io
+import json
+import base64
 import shutil
 from pathlib import Path
+import PIL
 
 import pytest
 from fastapi.testclient import TestClient
@@ -40,6 +44,17 @@ def synthesis_inputs(synthesis_files, synthesis_overrides):
     )
 
 
+import pylab as plt
+
+
 def test_synthesis_with_files(synthesis_inputs):
     response = client.post("/synthesis-with-files", data=synthesis_inputs.json())
     assert response.status_code == 200
+
+    payload = json.loads(response.content)
+
+    assert isinstance(payload, dict)
+
+    for name, data in payload.items():
+        img_bytes = base64.b64decode(data)
+        img = PIL.Image.open(io.BytesIO(img_bytes))

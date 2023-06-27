@@ -82,32 +82,28 @@ def make_figure(morphology: tmd.Neuron) -> plt.Figure:
     """Make an analysis figure."""
     barcode = tmd.methods.get_ph_neuron(morphology, neurite_type="dendrites")
 
-    fig = plt.figure()
+    fig_barcode, _ = tmd.view.plot.barcode(
+        barcode, color="b", new_fig=True, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
+    )
+    fig_diagram, _ = tmd.view.plot.diagram(
+        barcode, color="b", new_fig=True, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
+    )
+    fig_image, _ = tmd.view.plot.persistence_image(
+        barcode, new_fig=True, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
+    )[1]
 
-    # ruff: noqa: F841
-    # pylint: disable=unused-variable
-
-    ax1 = fig.add_subplot(321)
-    tmd.view.plot.barcode(
-        barcode, color="b", new_fig=False, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
-    )
-    ax2 = fig.add_subplot(323)
-    tmd.view.plot.diagram(
-        barcode, color="b", new_fig=False, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
-    )
-    ax3 = fig.add_subplot(325)
-    tmd.view.plot.persistence_image(
-        barcode, new_fig=False, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
-    )
-    ax4 = fig.add_subplot(122)
-    tmd.view.view.neuron(
+    fig_synthesis, _ = tmd.view.view.neuron(
         morphology,
-        new_fig=False,
+        new_fig=True,
         treecolors="b",
-        subplot=(122),
         xlim=(-300, 300),
-        ylim=(-1000, 1000),
+        ylim=(-300, 300),
         no_axes=True,
     )
 
-    return fig
+    return {
+        "barcode": fig_barcode,
+        "diagram": fig_diagram,
+        "image": fig_image,
+        "synthesis": fig_synthesis,
+    }

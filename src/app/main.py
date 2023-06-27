@@ -2,11 +2,11 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import JSONResponse
 
 from app import serialize, service
 from app.constants import COMMIT_SHA, DEBUG, ORIGINS, PROJECT_PATH
-from app.schemas import SynthesisWithFilesInputs
+from app.schemas import SerializedFigures, SynthesisWithFilesInputs
 
 app = FastAPI(debug=DEBUG)
 app.add_middleware(
@@ -36,15 +36,22 @@ async def version() -> dict:
     }
 
 
-@app.post("/synthesis-with-files")
-async def synthesis_with_files(synthesis_inputs: SynthesisWithFilesInputs):
+@app.post(
+    "/synthesis-with-files",
+    response_class=JSONResponse,
+)
+async def synthesis_with_files(synthesis_inputs: SynthesisWithFilesInputs) -> SerializedFigures:
     """Synthesize a morphology and return an analysis figure."""
     parameters, distributions = service.make_synthesis_inputs(
         synthesis_inputs.files, synthesis_inputs.overrides
     )
-
     morphology = service.synthesize_morphology(parameters, distributions)
 
-    figure = service.make_figure(morphology)
+    figures = service.make_figure(morphology)
 
-    return Response(content=serialize.figure(figure, media_type="jpg"), media_type="image/jpeg")
+    return SerializedFigures(
+        barcode=serialize.figure64(figures["barcode"]),
+        diagram=serialize.figure64(figures["diagram"]),
+        image=serialize.figure64(figures["image"]),
+        synthesis=serialize.figure64(figures["synthesis"]),
+    )

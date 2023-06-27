@@ -26,3 +26,12 @@ class SynthesisWithFilesInputs(BaseModel):
 
     files: SynthesisFiles
     overrides: dict[str, SynthesisOverrides]
+
+
+class SerializedFigures(BaseModel):
+    """Serialized figures."""
+
+    barcode: str
+    diagram: str
+    image: str
+    synthesis: str
