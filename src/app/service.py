@@ -1,6 +1,7 @@
 """Service functions."""
 
-from collections.abc import Mapping, MutableMapping
+from collections.abc import Iterator, Mapping, MutableMapping
+from contextlib import contextmanager
 
 import neurots
 import numpy as np
@@ -78,7 +79,8 @@ def synthesize_morphology(parameters: dict, distributions: dict) -> tmd.Neuron:
     return tmd.io.load_neuron_from_morphio(grower.neuron.as_immutable())
 
 
-def make_figure(morphology: tmd.Neuron) -> plt.Figure:
+@contextmanager
+def make_figures(morphology: tmd.Neuron) -> Iterator[dict[str, plt.Figure]]:
     """Make an analysis figure."""
     barcode = tmd.methods.get_ph_neuron(morphology, neurite_type="dendrites")
 
@@ -101,9 +103,16 @@ def make_figure(morphology: tmd.Neuron) -> plt.Figure:
         no_axes=True,
     )
 
-    return {
+    figures = {
         "barcode": fig_barcode,
         "diagram": fig_diagram,
         "image": fig_image,
         "synthesis": fig_synthesis,
     }
+
+    try:
+        yield figures
+    finally:
+        # Remove figures from pylab's state machine
+        for fig in figures.values():
+            plt.close(fig)

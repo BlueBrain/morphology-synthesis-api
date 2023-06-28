@@ -47,11 +47,10 @@ async def synthesis_with_files(synthesis_inputs: SynthesisWithFilesInputs) -> Se
     )
     morphology = service.synthesize_morphology(parameters, distributions)
 
-    figures = service.make_figure(morphology)
-
-    return SerializedFigures(
-        barcode=serialize.figure64(figures["barcode"]),
-        diagram=serialize.figure64(figures["diagram"]),
-        image=serialize.figure64(figures["image"]),
-        synthesis=serialize.figure64(figures["synthesis"]),
-    )
+    with service.make_figures(morphology) as figures:
+        return SerializedFigures(
+            barcode=serialize.figure64(figures["barcode"]),
+            diagram=serialize.figure64(figures["diagram"]),
+            image=serialize.figure64(figures["image"]),
+            synthesis=serialize.figure64(figures["synthesis"]),
+        )

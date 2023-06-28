@@ -74,8 +74,17 @@ def test_synthesize_morphology(bio_params, bio_distributions, morphology):
     assert result.neurites
 
 
-def test_make_figure(morphology):
-    figures = test_module.make_figure(morphology)
-    assert isinstance(figures, dict)
-    for fig in figures.values():
-        assert isinstance(fig, plt.Figure)
+import pylab as plt
+
+
+def test_make_figures(morphology):
+    before_fignums = plt.get_fignums()
+
+    with test_module.make_figures(morphology) as figures:
+        assert isinstance(figures, dict)
+        for fig in figures.values():
+            assert isinstance(fig, plt.Figure)
+
+        assert len(plt.get_fignums()) == len(before_fignums) + len(figures)
+
+    assert plt.get_fignums() == before_fignums
