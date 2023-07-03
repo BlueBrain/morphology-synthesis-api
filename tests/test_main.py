@@ -4,8 +4,10 @@ import base64
 import shutil
 from pathlib import Path
 import PIL
+from unittest.mock import patch
 
 import pytest
+import pylab as plt
 from fastapi.testclient import TestClient
 
 from app import schemas
@@ -36,25 +38,43 @@ def test_version_get(monkeypatch):
     assert response.json() == {"project": project_path, "commit_sha": commit_sha}
 
 
-@pytest.fixture
-def synthesis_inputs(synthesis_files, synthesis_overrides):
-    return schemas.SynthesisWithFilesInputs(
-        files=synthesis_files,
-        overrides=synthesis_overrides,
-    )
-
-
-import pylab as plt
-
-
-def test_synthesis_with_files(synthesis_inputs):
-    response = client.post("/synthesis-with-files", data=synthesis_inputs.json())
-    assert response.status_code == 200
-
-    payload = json.loads(response.content)
+def _check_payload_valid_figures(response):
+    payload = response.json()
 
     assert isinstance(payload, dict)
 
     for name, data in payload.items():
         img_bytes = base64.b64decode(data)
         img = PIL.Image.open(io.BytesIO(img_bytes))
+
+
+def test_synthesis_with_files(synthesis_files, synthesis_overrides):
+    inputs = schemas.FileInputs(
+        files=synthesis_files,
+        overrides=synthesis_overrides,
+    )
+
+    response = client.post("/synthesis-with-files", data=inputs.json())
+    assert response.status_code == 200
+    _check_payload_valid_figures(response)
+
+
+def test_synthesis_with_resources(
+    synthesis_resources, synthesis_overrides, synthesis_datasets, nexus_config
+):
+    inputs = schemas.ResourceInputs(
+        resources=synthesis_resources,
+        overrides=synthesis_overrides,
+    )
+
+    with patch("app.service.fetch_synthesis_datasets", return_value=synthesis_datasets) as patched:
+        response = client.post(
+            "/synthesis-with-resources", data=inputs.json(), headers={"nexus-token": "my-token"}
+        )
+
+        patched.assert_called_once_with(
+            resources=inputs.resources, nexus_config=nexus_config, nexus_token="my-token"
+        )
+
+    assert response.status_code == 200
+    _check_payload_valid_figures(response)

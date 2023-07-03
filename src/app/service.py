@@ -1,6 +1,6 @@
 """Service functions."""
 
-from collections.abc import Iterator, Mapping, MutableMapping
+from collections.abc import Iterator, Mapping
 from contextlib import contextmanager
 
 import neurots
@@ -9,30 +9,70 @@ import pylab as plt
 import tmd.io
 import tmd.view
 
-from app import utils
-from app.schemas import SynthesisFiles, SynthesisOverrides
-
-# pylint: disable=unused-argument
-
-
-def make_synthesis_inputs(
-    files: SynthesisFiles, overrides: Mapping[str, SynthesisOverrides] | None = None
-) -> tuple[dict, dict]:
-    """Generate and update the synthesis inputs."""
-    parameters = utils.load_json(files.parameters_file)
-    distributions = utils.load_json(files.distributions_file)
-
-    if overrides:
-        _apply_overrides(parameters, distributions, overrides)
-
-    return parameters, distributions
+from app import nexus, utils
+from app.schemas import (
+    NexusConfig,
+    SynthesisDatasets,
+    SynthesisFiles,
+    SynthesisOverrides,
+    SynthesisResources,
+)
 
 
-def _apply_overrides(
-    parameters: MutableMapping,
-    distributions: MutableMapping,
-    overrides: Mapping[str, SynthesisOverrides],
+def load_synthesis_datasets(files: SynthesisFiles) -> SynthesisDatasets:
+    """Load synthesis datasets from files.
+
+    Args:
+        files: Synthesis files to load.
+
+    Returns:
+        The loaded synthesis datasets.
+    """
+    return SynthesisDatasets(
+        parameters=utils.load_json(files.parameters_file),
+        distributions=utils.load_json(files.distributions_file),
+    )
+
+
+def fetch_synthesis_datasets(
+    resources: SynthesisResources, nexus_config: NexusConfig, nexus_token: str
+) -> SynthesisDatasets:
+    """Fetch synthesis datasets for Nexus resources.
+
+    Args:
+        resources: Synthesis resources to fetch.
+        nexus_config: Configuration for nexus endpoint and bucket.
+        nexus_token: Nexus authentication token.
+
+    Returns:
+        The loaded synthesis datasets.
+    """
+    parameters_resource = nexus.get_resource_json_ld(
+        resource_id=resources.parameters_id,
+        nexus_config=nexus_config,
+        nexus_token=nexus_token,
+    )
+    parameters = nexus.load_json_distribution_file(parameters_resource, nexus_token)
+
+    distributions_resource = nexus.get_resource_json_ld(
+        resource_id=resources.distributions_id,
+        nexus_config=nexus_config,
+        nexus_token=nexus_token,
+    )
+    distributions = nexus.load_json_distribution_file(distributions_resource, nexus_token)
+
+    return SynthesisDatasets(
+        parameters=parameters,
+        distributions=distributions,
+    )
+
+
+def apply_overrides(
+    datasets: SynthesisDatasets, overrides: Mapping[str, SynthesisOverrides]
 ) -> None:
+    """Update synthesis inputs based on overrides."""
+    parameters, distributions = datasets.parameters, datasets.distributions
+
     available_grow_types = parameters["grow_types"]
 
     for grow_type, neurite_overrides in overrides.items():
@@ -72,9 +112,9 @@ def _scale_barcode_list(barcode_list: list, total_extent: float) -> list:
     return [scale_spatial_barcode_component(barcode, total_extent) for barcode in barcode_list]
 
 
-def synthesize_morphology(parameters: dict, distributions: dict) -> tmd.Neuron:
+def synthesize_morphology(synthesis_datasets: SynthesisDatasets) -> tmd.Neuron:
     """Grow a morphology using the parameters and distributions."""
-    grower = neurots.NeuronGrower(parameters, distributions)
+    grower = neurots.NeuronGrower(synthesis_datasets.parameters, synthesis_datasets.distributions)
     grower.grow()
     return tmd.io.load_neuron_from_morphio(grower.neuron.as_immutable())
 

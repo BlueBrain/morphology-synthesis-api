@@ -1,25 +1,43 @@
 from copy import deepcopy
 
-import pytest
 import numpy as np
 import pylab as plt
 from numpy import testing as npt
-from pathlib import Path
-
-import app.service as test_module
-
+from unittest.mock import patch
 
 from app import service as test_module
 from app import schemas
 
 
-def test_make_synthesis_inputs(synthesis_files, synthesis_overrides):
-    parameters, distributions = test_module.make_synthesis_inputs(
-        files=synthesis_files,
-        overrides=synthesis_overrides,
-    )
-    assert isinstance(parameters, dict)
-    assert isinstance(distributions, dict)
+def test_fetch_synthesis_datasets(synthesis_resources, nexus_config):
+    mock_resources = {
+        synthesis_resources.parameters_id: {
+            "distribution": {"atLocation": {"location": "file://path1"}}
+        },
+        synthesis_resources.distributions_id: {
+            "distribution": {"atLocation": {"location": "file://path2"}}
+        },
+    }
+
+    path_to_mock_data = {
+        "path1": {"foo": "bar"},
+        "path2": {"bar": "foo"},
+    }
+
+    with (
+        patch(
+            "app.nexus.get_resource_json_ld",
+            side_effect=lambda resource_id, nexus_config, nexus_token: mock_resources[resource_id],
+        ),
+        patch(
+            "app.nexus.load_json",
+            side_effect=lambda p: path_to_mock_data[p],
+        ),
+    ):
+        res = test_module.fetch_synthesis_datasets(synthesis_resources, nexus_config, None)
+
+        assert res.parameters == {"foo": "bar"}
+        assert res.distributions == {"bar": "foo"}
 
 
 def test_scale_barcode_list():
@@ -32,33 +50,33 @@ def test_scale_barcode_list():
     npt.assert_allclose(res, expected)
 
 
-def test_apply_overrides__None(bio_params, bio_distributions):
+def test_apply_overrides__None(synthesis_datasets):
     # by default all overrides are None
     overrides = {"basal_dendrite": schemas.SynthesisOverrides()}
 
-    old_params = deepcopy(bio_params)
-    old_distrs = deepcopy(bio_distributions)
+    datasets = deepcopy(synthesis_datasets)
 
-    test_module._apply_overrides(bio_params, bio_distributions, overrides)
+    test_module.apply_overrides(datasets, overrides)
 
-    assert old_params == bio_params
-    assert old_distrs == bio_distributions
+    assert synthesis_datasets == datasets
 
 
-def test_apply_overrides(bio_params, bio_distributions, synthesis_overrides):
-    old_params = deepcopy(bio_params)
-    old_distrs = deepcopy(bio_distributions)
+def test_apply_overrides(synthesis_datasets, synthesis_overrides):
+    datasets = deepcopy(synthesis_datasets)
 
-    test_module._apply_overrides(bio_params, bio_distributions, synthesis_overrides)
+    test_module.apply_overrides(datasets, synthesis_overrides)
 
-    assert bio_params["basal_dendrite"] == old_params["basal_dendrite"]
-    assert bio_distributions["basal_dendrite"] == old_distrs["basal_dendrite"]
+    assert datasets.parameters["basal_dendrite"] == synthesis_datasets.parameters["basal_dendrite"]
+    assert (
+        datasets.distributions["basal_dendrite"]
+        == synthesis_datasets.distributions["basal_dendrite"]
+    )
 
-    apical_params = bio_params["apical_dendrite"]
-    apical_distrs = bio_distributions["apical_dendrite"]
+    apical_params = datasets.parameters["apical_dendrite"]
+    apical_distrs = datasets.distributions["apical_dendrite"]
     apical_overrides = synthesis_overrides["apical_dendrite"]
 
-    assert apical_distrs != old_distrs["apical_dendrite"]
+    assert apical_distrs != synthesis_datasets.distributions["apical_dendrite"]
 
     assert apical_params["randomness"] == apical_overrides.randomness
     assert apical_params["radius"] == apical_overrides.radius
@@ -69,12 +87,9 @@ def test_apply_overrides(bio_params, bio_distributions, synthesis_overrides):
     }
 
 
-def test_synthesize_morphology(bio_params, bio_distributions, morphology):
-    result = test_module.synthesize_morphology(bio_params, bio_distributions)
+def test_synthesize_morphology(synthesis_datasets, morphology):
+    result = test_module.synthesize_morphology(synthesis_datasets)
     assert result.neurites
-
-
-import pylab as plt
 
 
 def test_make_figures(morphology):

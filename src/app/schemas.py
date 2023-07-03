@@ -1,7 +1,17 @@
 """Data schemas."""
 from pathlib import Path
+from typing import Any
 
 from pydantic import BaseModel
+
+from app.constants import NEXUS_BUCKET, NEXUS_ENDPOINT
+
+
+class SynthesisDatasets(BaseModel):
+    """Synthesis datasets."""
+
+    parameters: dict[str, Any]
+    distributions: dict[str, Any]
 
 
 class SynthesisFiles(BaseModel):
@@ -21,7 +31,7 @@ class SynthesisOverrides(BaseModel):
     radius: float | None = None
 
 
-class SynthesisWithFilesInputs(BaseModel):
+class FileInputs(BaseModel):
     """Synthesis file endpoint input."""
 
     files: SynthesisFiles
@@ -35,3 +45,25 @@ class SerializedFigures(BaseModel):
     diagram: str
     image: str
     synthesis: str
+
+
+class SynthesisResources(BaseModel):
+    """Synthesis inputs resources."""
+
+    parameters_id: str
+    distributions_id: str
+
+
+class NexusConfig(BaseModel):
+    """Nexus configuration."""
+
+    bucket: str
+    endpoint: str
+
+
+class ResourceInputs(BaseModel):
+    """Synthesis resource endpoint input."""
+
+    resources: SynthesisResources
+    overrides: dict[str, SynthesisOverrides]
+    nexus_config: NexusConfig = NexusConfig(endpoint=NEXUS_ENDPOINT, bucket=NEXUS_BUCKET)

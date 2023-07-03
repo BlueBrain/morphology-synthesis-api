@@ -14,3 +14,7 @@ COMMIT_SHA = os.environ.get("COMMIT_SHA")
 DEBUG = os.environ.get("DEBUG", "").lower() == "true"
 LOGGING_CONFIG = os.environ.get("LOGGING_CONFIG", "logging.yaml")
 LOGGING_LEVEL = os.environ.get("LOGGING_LEVEL")
+
+
+NEXUS_ENDPOINT = "https://bbp.epfl.ch/nexus/v1"
+NEXUS_BUCKET = "bbp/mmb-point-neuron-framework-model"
