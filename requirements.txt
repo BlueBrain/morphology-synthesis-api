@@ -6,7 +6,7 @@
 #
 --index-url https://bbpteam.epfl.ch/repository/devpi/simple
 
-anyio==3.7.0
+anyio==3.7.1
     # via
     #   starlette
     #   watchfiles
@@ -16,13 +16,14 @@ attrs==23.1.0
     # via
     #   entity-management
     #   jsonschema
+    #   referencing
 cached-property==1.5.2
     # via tmd
 certifi==2023.5.7
     # via requests
 charset-normalizer==3.1.0
     # via requests
-click==8.1.3
+click==8.1.4
     # via
     #   diameter-synthesis
     #   neurom
@@ -39,13 +40,13 @@ diameter-synthesis==0.5.4
     # via neurots
 ecdsa==0.18.0
     # via python-jose
-entity-management==1.2.19
+entity-management==1.2.20
     # via morphology-synthesis (pyproject.toml)
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via anyio
 executing==1.2.0
     # via devtools
-fastapi==0.98.0
+fastapi==0.99.1
     # via morphology-synthesis (pyproject.toml)
 fonttools==4.40.0
     # via matplotlib
@@ -53,7 +54,7 @@ h11==0.14.0
     # via uvicorn
 h5py==3.9.0
     # via tmd
-httptools==0.5.0
+httptools==0.6.0
     # via uvicorn
 idna==3.4
     # via
@@ -61,20 +62,22 @@ idna==3.4
     #   requests
 isodate==0.6.1
     # via rdflib
-joblib==1.3.0
+joblib==1.3.1
     # via scikit-learn
-jsonschema==4.17.3
+jsonschema==4.18.0
     # via
     #   diameter-synthesis
     #   neurots
+jsonschema-specifications==2023.6.1
+    # via jsonschema
 kiwisolver==1.4.4
     # via matplotlib
-matplotlib==3.7.1
+matplotlib==3.7.2
     # via
     #   diameter-synthesis
     #   neurom
     #   neurots
-morphio==3.3.5
+morphio==3.3.6
     # via
     #   diameter-synthesis
     #   neurom
@@ -109,13 +112,13 @@ pandas==2.0.3
     # via
     #   diameter-synthesis
     #   neurom
-pillow==9.5.0
+pillow==10.0.0
     # via matplotlib
 pyasn1==0.5.0
     # via
     #   python-jose
     #   rsa
-pydantic==1.10.9
+pydantic==1.10.11
     # via
     #   fastapi
     #   morphology-synthesis (pyproject.toml)
@@ -123,12 +126,10 @@ pygments==2.15.1
     # via devtools
 pyjwt==2.7.0
     # via entity-management
-pyparsing==3.1.0
+pyparsing==3.0.9
     # via
     #   matplotlib
     #   rdflib
-pyrsistent==0.19.3
-    # via jsonschema
 python-dateutil==2.8.2
     # via
     #   entity-management
@@ -151,6 +152,10 @@ rdflib==6.3.2
     # via
     #   entity-management
     #   sparqlwrapper
+referencing==0.29.1
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.31.0
     # via
     #   entity-management
@@ -158,9 +163,13 @@ requests==2.31.0
     #   requests-toolbelt
 requests-toolbelt==1.0.0
     # via python-keycloak
+rpds-py==0.8.8
+    # via
+    #   jsonschema
+    #   referencing
 rsa==4.9
     # via python-jose
-scikit-learn==1.2.2
+scikit-learn==1.3.0
     # via tmd
 scipy==1.11.1
     # via
@@ -187,8 +196,10 @@ tmd==2.3.1
     # via neurots
 tqdm==4.65.0
     # via neurom
-typing-extensions==4.7.0
-    # via pydantic
+typing-extensions==4.7.1
+    # via
+    #   fastapi
+    #   pydantic
 tzdata==2023.3
     # via pandas
 urllib3==2.0.3

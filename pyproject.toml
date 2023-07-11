@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "morphology-synthesis"
-version = "2023.04.3"
+version = "2023.07.10"
 description = "morphology-synthesis web API"
 readme = "README.rst"
 requires-python = ">=3.10"
@@ -14,7 +14,7 @@ dependencies = [
     "neurots",
     "pydantic",
     "pyyaml",
-    "entity-management",
+    "entity-management>=1.2.20",
     "uvicorn[standard]",
 ]
 

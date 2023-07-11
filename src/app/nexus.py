@@ -2,8 +2,7 @@
 
 import logging
 
-from entity_management.nexus import file_as_dict, load_by_url
-from entity_management.util import quote
+from entity_management.nexus import file_as_dict, load_by_id
 
 from app.schemas import NexusConfig
 from app.utils import load_json
@@ -22,10 +21,14 @@ def get_resource_json_ld(resource_id: str, nexus_config: NexusConfig, nexus_toke
     Returns:
         The json-ld dictionary of the Nexus resource.
     """
-    base_url = f"{nexus_config.endpoint}/resolvers/{nexus_config.bucket}/_"
-    url = f"{base_url}/{quote(resource_id)}"
-    json_ld = load_by_url(url, token=nexus_token)
-    return json_ld
+    return load_by_id(
+        resource_id=resource_id,
+        cross_bucket=True,
+        base=nexus_config.endpoint,
+        org=nexus_config.org,
+        proj=nexus_config.project,
+        token=nexus_token,
+    )
 
 
 def load_json_distribution_file(resource: dict, nexus_token: str) -> dict:

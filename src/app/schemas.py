@@ -60,6 +60,16 @@ class NexusConfig(BaseModel):
     bucket: str
     endpoint: str
 
+    @property
+    def org(self):
+        """Return Nexus organization."""
+        return self.bucket.split("/")[0]
+
+    @property
+    def project(self):
+        """Return Nexus project."""
+        return self.bucket.split("/")[1]
+
 
 class ResourceInputs(BaseModel):
     """Synthesis resource endpoint input."""

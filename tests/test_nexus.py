@@ -7,13 +7,17 @@ import pytest
 
 
 def test_get_resource_id(nexus_config):
-    with patch("app.nexus.load_by_url", side_effect=lambda url, token: (url, token)):
+    with patch("app.nexus.load_by_id") as patched:
         res = test_module.get_resource_json_ld("my-resource", nexus_config, nexus_token="foo")
 
-        expected_url = f"{NEXUS_ENDPOINT}/resolvers/{NEXUS_BUCKET}/_/my-resource"
-
-        assert res[0] == expected_url
-        assert res[1] == "foo"
+        patched.assert_called_once_with(
+            resource_id="my-resource",
+            cross_bucket=True,
+            base=nexus_config.endpoint,
+            org=nexus_config.org,
+            proj=nexus_config.project,
+            token="foo",
+        )
 
 
 def test_load_json_file__raise_if_no_distribution():
