@@ -27,7 +27,7 @@ class SynthesisOverrides(BaseModel):
     total_extent: float | None = None
     randomness: float | None = None
     orientation: tuple[float, float, float] | None = None
-    step_size: float | None = None
+    step_size: dict[str, dict[str, float]] | None = None
     radius: float | None = None
 
 

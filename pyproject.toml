@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "morphology-synthesis"
-version = "2023.07.10"
+version = "2023.07.11"
 description = "morphology-synthesis web API"
 readme = "README.rst"
 requires-python = ">=3.10"

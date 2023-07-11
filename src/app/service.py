@@ -94,7 +94,7 @@ def apply_overrides(
             neurite_parameters["radius"] = neurite_overrides.radius
 
         if neurite_overrides.step_size:
-            neurite_parameters["step_size"]["norm"]["mean"] = neurite_overrides.step_size
+            neurite_parameters["step_size"] = neurite_overrides.step_size
 
         if neurite_overrides.orientation:
             neurite_parameters["orientation"] = {

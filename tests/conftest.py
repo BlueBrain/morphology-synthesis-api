@@ -81,7 +81,7 @@ def synthesis_overrides():
             total_extent=10.0,
             randomness=0.001,
             orientation=(0.0, 0.0, 1.0),
-            step_size=1.0,
+            step_size={"norm": {"mean": 1.5, "std": 0.1}},
             radius=0.5,
         )
     }

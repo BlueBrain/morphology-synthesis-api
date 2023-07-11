@@ -80,7 +80,7 @@ def test_apply_overrides(synthesis_datasets, synthesis_overrides):
 
     assert apical_params["randomness"] == apical_overrides.randomness
     assert apical_params["radius"] == apical_overrides.radius
-    assert apical_params["step_size"]["norm"]["mean"] == apical_overrides.step_size
+    assert apical_params["step_size"] == apical_overrides.step_size
     assert apical_params["orientation"] == {
         "mode": "use_predefined",
         "values": {"orientations": [list(apical_overrides.orientation)]},
