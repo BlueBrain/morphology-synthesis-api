@@ -22,55 +22,55 @@ def nexus_token():
 
 
 @pytest.fixture(scope="session")
-def bio_params_file():
-    return DATA_DIR / "bio_rat_L5_TPC_B_parameters.json"
+def params_file():
+    return DATA_DIR / "params_L5_TPC:B.json"
 
 
 @pytest.fixture(scope="session")
-def bio_params(bio_params_file):
-    return load_json(bio_params_file)
+def params(params_file):
+    return load_json(params_file)
 
 
 @pytest.fixture(scope="session")
-def bio_distributions_file():
-    return DATA_DIR / "bio_rat_L5_TPC_B_distribution.json"
+def distributions_file():
+    return DATA_DIR / "distr_L5_TPC:B.json"
 
 
 @pytest.fixture(scope="session")
-def bio_distributions(bio_distributions_file):
-    return load_json(bio_distributions_file)
+def distributions(distributions_file):
+    return load_json(distributions_file)
 
 
 @pytest.fixture
-def synthesis_files(bio_params_file, bio_distributions_file):
+def synthesis_files(params_file, distributions_file):
     return schemas.SynthesisFiles(
-        parameters_file=str(bio_params_file), distributions_file=str(bio_distributions_file)
+        parameters_file=str(params_file), distributions_file=str(distributions_file)
     )
 
 
 @pytest.fixture(scope="session")
-def bio_params_id():
+def params_id():
     return "https://bbp.epfl.ch/neurosciencegraph/data/16d47353-41e9-483d-90b8-522e430f4278"
 
 
 @pytest.fixture(scope="session")
-def bio_distributions_id():
+def distributions_id():
     return "https://bbp.epfl.ch/neurosciencegraph/data/8391281e-9cbf-4424-a41b-d31774475753"
 
 
 @pytest.fixture
-def synthesis_resources(bio_params_id, bio_distributions_id):
+def synthesis_resources(params_id, distributions_id):
     return schemas.SynthesisResources(
-        parameters_id=bio_params_id,
-        distributions_id=bio_distributions_id,
+        parameters_id=params_id,
+        distributions_id=distributions_id,
     )
 
 
 @pytest.fixture
-def synthesis_datasets(bio_params_file, bio_distributions_file):
+def synthesis_datasets(params_file, distributions_file):
     return schemas.SynthesisDatasets(
-        parameters=load_json(bio_params_file),
-        distributions=load_json(bio_distributions_file),
+        parameters=load_json(params_file),
+        distributions=load_json(distributions_file),
     )
 
 
@@ -80,7 +80,7 @@ def synthesis_overrides():
         "apical_dendrite": schemas.SynthesisOverrides(
             total_extent=10.0,
             randomness=0.001,
-            orientation=(0.0, 0.0, 1.0),
+            orientation=[[0.0, 0.0, 1.0]],
             step_size={"norm": {"mean": 1.5, "std": 0.1}},
             radius=0.5,
         )

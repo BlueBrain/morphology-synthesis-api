@@ -5,7 +5,7 @@ include:
   file:
   - /ci/lib/tox-docker.yml
   - /ci/jobs/lint.yml
-  - /ci/jobs/coverage.yml
+  - /ci/jobs/py310.yml
   - /ci/jobs/check-packaging.yml
 
 

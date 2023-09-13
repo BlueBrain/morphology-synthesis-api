@@ -98,9 +98,22 @@ def apply_overrides(
 
         if neurite_overrides.orientation:
             neurite_parameters["orientation"] = {
-                "mode": "use_predefined",
-                "values": {"orientations": [list(neurite_overrides.orientation)]},
+                "mode": "normal_pia_constraint",
+                "values": {
+                    "direction": {
+                        "mean": _angle_between(neurite_overrides.orientation[0], [0.0, 1.0, 0.0]),
+                        "std": 0.0,
+                    }
+                },
             }
+
+
+def _angle_between(v1: list, v2: list) -> float:
+    v1 = np.array(v1)
+    v2 = np.array(v2)
+    v1 /= np.linalg.norm(v1)
+    v2 /= np.linalg.norm(v2)
+    return float(np.arccos(np.clip(np.dot(v1, v2), -1.0, 1.0)))
 
 
 def _scale_barcode_list(barcode_list: list, total_extent: float) -> list:
