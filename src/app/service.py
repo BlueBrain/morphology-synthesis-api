@@ -135,25 +135,36 @@ def synthesize_morphology(synthesis_datasets: SynthesisDatasets) -> tmd.Neuron:
 @contextmanager
 def make_figures(morphology: tmd.Neuron) -> Iterator[dict[str, plt.Figure]]:
     """Make an analysis figure."""
-    barcode = tmd.methods.get_ph_neuron(morphology, neurite_type="dendrites")
+    barcode = tmd.methods.get_ph_neuron(
+        morphology, neurite_type="dendrites", feature="path_distances"
+    )
+
+    # greek mu letter for microns
+    mu = "\u03BC"
 
     fig_barcode, _ = tmd.view.plot.barcode(
-        barcode, color="b", new_fig=True, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
+        barcode, color="b", new_fig=True, xlabel=f"Path distance ({mu}m)", ylabel=""
     )
     fig_diagram, _ = tmd.view.plot.diagram(
-        barcode, color="b", new_fig=True, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
+        barcode,
+        color="b",
+        new_fig=True,
+        xlabel=f"Start path distance ({mu}m)",
+        ylabel=f"End path distance ({mu}m)",
     )
     fig_image, _ = tmd.view.plot.persistence_image(
-        barcode, new_fig=True, xlim=(0, 100), ylim=(0, 100), xlabel="", ylabel=""
+        barcode,
+        new_fig=True,
+        xlabel=f"Start path distance ({mu}m)",
+        ylabel=f"End path distance ({mu}m)",
     )[1]
 
     fig_synthesis, _ = tmd.view.view.neuron(
         morphology,
         new_fig=True,
         treecolors="b",
-        xlim=(-300, 300),
-        ylim=(-300, 300),
         no_axes=True,
+        title="",
     )
 
     figures = {
