@@ -6,81 +6,114 @@
 #
 --index-url https://bbpteam.epfl.ch/repository/devpi/simple
 
-annotated-types==0.5.0
+annotated-types==0.6.0
     # via pydantic
-anyio==3.7.1
+anyio==4.3.0
     # via
-    #   fastapi
+    #   httpx
     #   starlette
     #   watchfiles
-asttokens==2.4.0
+asttokens==2.4.1
     # via devtools
-attrs==23.1.0
+attrs==23.2.0
     # via
     #   entity-management
     #   jsonschema
     #   referencing
 cached-property==1.5.2
     # via tmd
-certifi==2023.7.22
-    # via requests
-charset-normalizer==3.2.0
+certifi==2024.2.2
+    # via
+    #   httpcore
+    #   httpx
+    #   requests
+cffi==1.16.0
+    # via cryptography
+charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via
     #   diameter-synthesis
+    #   entity-management
     #   neurom
+    #   typer
     #   uvicorn
-contourpy==1.1.0
+contourpy==1.2.1
     # via matplotlib
-cycler==0.11.0
+cryptography==42.0.7
+    # via jwcrypto
+cycler==0.12.1
     # via matplotlib
 deprecation==2.1.0
     # via python-keycloak
 devtools==0.12.2
     # via entity-management
-diameter-synthesis==0.5.4
+diameter-synthesis==0.6.1
     # via neurots
-ecdsa==0.18.0
-    # via python-jose
-entity-management==1.2.26
+dnspython==2.6.1
+    # via email-validator
+email-validator==2.1.1
+    # via fastapi
+entity-management==1.2.45
     # via morphology-synthesis (pyproject.toml)
-exceptiongroup==1.1.3
+exceptiongroup==1.2.1
     # via anyio
-executing==1.2.0
+executing==2.0.1
     # via devtools
-fastapi==0.103.1
-    # via morphology-synthesis (pyproject.toml)
-fonttools==4.42.1
+fastapi==0.111.0
+    # via
+    #   fastapi-cli
+    #   morphology-synthesis (pyproject.toml)
+fastapi-cli==0.0.3
+    # via fastapi
+fonttools==4.51.0
     # via matplotlib
 h11==0.14.0
-    # via uvicorn
-h5py==3.9.0
+    # via
+    #   httpcore
+    #   uvicorn
+h5py==3.11.0
     # via tmd
-httptools==0.6.0
+httpcore==1.0.5
+    # via httpx
+httptools==0.6.1
     # via uvicorn
-idna==3.4
+httpx==0.27.0
+    # via fastapi
+idna==3.7
     # via
     #   anyio
+    #   email-validator
+    #   httpx
     #   requests
 isodate==0.6.1
     # via rdflib
-joblib==1.3.2
+jinja2==3.1.4
+    # via fastapi
+joblib==1.4.2
     # via scikit-learn
-jsonschema==4.19.0
+jsonschema==4.22.0
     # via
     #   diameter-synthesis
     #   neurots
-jsonschema-specifications==2023.7.1
+jsonschema-specifications==2023.12.1
     # via jsonschema
+jwcrypto==1.5.6
+    # via python-keycloak
 kiwisolver==1.4.5
     # via matplotlib
-matplotlib==3.7.3
+markdown-it-py==3.0.0
+    # via rich
+markupsafe==2.1.5
+    # via jinja2
+matplotlib==3.9.0
     # via
     #   diameter-synthesis
     #   neurom
     #   neurots
-morphio==3.3.6
+mdurl==0.1.2
+    # via markdown-it-py
+morphio==3.3.9
     # via
     #   diameter-synthesis
     #   neurom
@@ -88,13 +121,13 @@ morphio==3.3.6
     #   tmd
 munkres==1.1.4
     # via tmd
-neurom==3.2.2
+neurom==3.2.11
     # via
     #   diameter-synthesis
     #   neurots
-neurots==3.4.1
+neurots==3.6.0
     # via morphology-synthesis (pyproject.toml)
-numpy==1.25.2
+numpy==1.26.4
     # via
     #   contourpy
     #   diameter-synthesis
@@ -107,46 +140,49 @@ numpy==1.25.2
     #   scikit-learn
     #   scipy
     #   tmd
-packaging==23.1
+orjson==3.10.3
+    # via fastapi
+packaging==24.0
     # via
     #   deprecation
     #   matplotlib
-pandas==2.1.0
+    #   neurots
+pandas==2.2.2
     # via
     #   diameter-synthesis
     #   neurom
-pillow==10.0.0
+pillow==10.3.0
     # via matplotlib
-pyasn1==0.5.0
-    # via
-    #   python-jose
-    #   rsa
-pydantic==2.3.0
+pycparser==2.22
+    # via cffi
+pydantic==2.7.1
     # via
     #   fastapi
     #   morphology-synthesis (pyproject.toml)
-pydantic-core==2.6.3
+pydantic-core==2.18.2
     # via pydantic
-pygments==2.16.1
-    # via devtools
+pygments==2.18.0
+    # via
+    #   devtools
+    #   rich
 pyjwt==2.8.0
     # via entity-management
-pyparsing==3.1.1
+pyparsing==3.1.2
     # via
     #   matplotlib
     #   rdflib
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   entity-management
     #   matplotlib
     #   pandas
-python-dotenv==1.0.0
+python-dotenv==1.0.1
     # via uvicorn
-python-jose==3.3.0
-    # via python-keycloak
-python-keycloak==3.3.0
+python-keycloak==4.0.0
     # via entity-management
-pytz==2023.3.post1
+python-multipart==0.0.9
+    # via fastapi
+pytz==2024.1
     # via pandas
 pyyaml==6.0.1
     # via
@@ -157,7 +193,7 @@ rdflib==7.0.0
     # via
     #   entity-management
     #   sparqlwrapper
-referencing==0.30.2
+referencing==0.35.1
     # via
     #   jsonschema
     #   jsonschema-specifications
@@ -168,54 +204,69 @@ requests==2.31.0
     #   requests-toolbelt
 requests-toolbelt==1.0.0
     # via python-keycloak
-rpds-py==0.10.2
+rich==13.7.1
+    # via typer
+rpds-py==0.18.1
     # via
     #   jsonschema
     #   referencing
-rsa==4.9
-    # via python-jose
-scikit-learn==1.3.0
+scikit-learn==1.4.2
     # via tmd
-scipy==1.11.2
+scipy==1.13.0
     # via
     #   diameter-synthesis
     #   neurom
     #   neurots
     #   scikit-learn
     #   tmd
+shellingham==1.5.4
+    # via typer
 six==1.16.0
     # via
     #   asttokens
-    #   ecdsa
     #   isodate
     #   python-dateutil
-sniffio==1.3.0
-    # via anyio
+sniffio==1.3.1
+    # via
+    #   anyio
+    #   httpx
 sparqlwrapper==2.0.0
     # via entity-management
-starlette==0.27.0
+starlette==0.37.2
     # via fastapi
-threadpoolctl==3.2.0
+threadpoolctl==3.5.0
     # via scikit-learn
-tmd==2.3.1
+tmd==2.4.3
     # via neurots
-tqdm==4.66.1
-    # via neurom
-typing-extensions==4.7.1
+tqdm==4.66.4
     # via
+    #   diameter-synthesis
+    #   neurom
+typer==0.12.3
+    # via fastapi-cli
+typing-extensions==4.11.0
+    # via
+    #   anyio
     #   fastapi
+    #   jwcrypto
     #   pydantic
     #   pydantic-core
+    #   typer
     #   uvicorn
-tzdata==2023.3
+tzdata==2024.1
     # via pandas
-urllib3==2.0.4
+ujson==5.10.0
+    # via fastapi
+urllib3==2.2.1
     # via requests
-uvicorn==0.23.2
-    # via morphology-synthesis (pyproject.toml)
-uvloop==0.17.0
+uvicorn==0.29.0
+    # via
+    #   fastapi
+    #   fastapi-cli
+    #   morphology-synthesis (pyproject.toml)
+uvloop==0.19.0
     # via uvicorn
-watchfiles==0.20.0
+watchfiles==0.21.0
     # via uvicorn
-websockets==11.0.3
+websockets==12.0
     # via uvicorn
