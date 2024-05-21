@@ -8,7 +8,7 @@ Build & Run
 
 Build morphology-sythesis-api docker image:
 
-.. code-block: bash
+.. code-block:: bash
 
     docker build -t morphology-synthesis-api \
     --build-arg PROJECT_PATH=morphology-synthesis-api:local \
@@ -16,7 +16,7 @@ Build morphology-sythesis-api docker image:
 
 And run:
 
-.. code-block: bash
+.. code-block:: bash
 
     docker run --rm --name morphology-synthesis-api -p8000:8000 \
     -e DEBUG=true -e LOGGING_LEVEL=DEBUG \
@@ -36,7 +36,7 @@ Usage
 
 /synthesis-with-files route allows synthesizing a cell morphology passing file paths in the POST request:
 
-.. code-block: bash
+.. code-block:: bash
 
     curl -H 'Content-Type: application/json' \
          -X POST \
@@ -48,7 +48,7 @@ Usage
 
 /synthesis-with-files on the other hand allows to specify NEXUS resource ids instead of local files to extract the topological parameters and distributions from.
 
-.. code-block: bash
+.. code-block:: bash
 
     curl -H 'Content-Type: application/json' \
          -H 'nexus-token: ${NEXUS_TOKEN}'
