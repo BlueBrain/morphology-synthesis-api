@@ -23,11 +23,6 @@ And run:
     --cap-add SYS_PTRACE \
     morphology-synthesis-api
 
-Example payload:
-
-.. code-block: bash
-
-
 Usage
 =====
 
