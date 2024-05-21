@@ -53,7 +53,7 @@ Usage
     curl -H 'Content-Type: application/json' \
          -H 'nexus-token: ${NEXUS_TOKEN}'
          -X POST \
-         -d '{"resources": {"parameters_file": "${PARAMETERS_ID}", "distributions_file":"${DISTRIBUTIONS_ID}"}, "overrides":{"apical_dendrite":{"total_extent":10.0,"randomness":0.001, "orientation":[0.0, 0.0, 1.0], "step_size":1.0, "radius":0.5}, "nexus_config": {"bucket": "${ORG}/${PROJ}", "endpoint": ${NEXUS_INSTANCE_ENDPOINT}}}}' \
+         -d '{"resources": {"parameters_id": "${PARAMETERS_ID}", "distributions_id":"${DISTRIBUTIONS_ID}"}, "overrides":{"apical_dendrite":{"total_extent":10.0,"randomness":0.001, "orientation":[0.0, 0.0, 1.0], "step_size":1.0, "radius":0.5}, "nexus_config": {"bucket": "${ORG}/${PROJ}", "endpoint": ${NEXUS_INSTANCE_ENDPOINT}}}}' \
          http://0.0.0.0:8000/synthesis-with-resources
 
 
