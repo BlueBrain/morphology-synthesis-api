@@ -11,6 +11,7 @@ RUN \
     pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY ./src/app /code/app
+COPY ./tests/data /code/data
 COPY ./logging.yaml /code/logging.yaml
 
 ARG PROJECT_PATH

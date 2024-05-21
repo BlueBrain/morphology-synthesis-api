@@ -39,9 +39,9 @@ Usage
 .. code-block:: bash
 
     curl -H 'Content-Type: application/json' \
-         -X POST \
-         -d '{"files": {"parameters_file": "tests/data/bio_rat_L5_TPC_B_parameters.json", "distributions_file":"tests/data/bio_rat_L5_TPC_B_distribution.json"}, "overrides":{"apical_dendrite":{"total_extent":10.0,"randomness":0.001, "orientation":[0.0, 0.0, 1.0], "step_size":1.0, "radius":0.5}}}' \
-         http://0.0.0.0:8000/synthesis-with-files
+          -X POST \
+          -d '{"files": {"parameters_file": "/code/data/params_L5_TPC:B.json", "distributions_file":"/code/data/distr_L5_TPC:B.json"}, "overrides":{"apical_dendrite":{"total_extent":10.0,"randomness":0.001, "orientation":[[0.0, 0.0, 1.0]], "step_size":{"norm": {"mean": 1.0, "std": "0.1"}}, "radius":0.5}}}' \
+          http://0.0.0.0:8000/synthesis-with-files
 
 /synthesis-with-resources
 -------------------------
