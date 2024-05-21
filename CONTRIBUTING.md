@@ -1,6 +1,6 @@
 # Contribution Guide
 
-We would love for you to contribute to the vascpy project and help make it better than it is today.
+We would love for you to contribute to the morphologt-synthesis-api project and help make it better than it is today.
 As a contributor, here are the guidelines we would like you to follow:
 
  - [Question or Problem?](#got-a-question)
@@ -106,34 +106,3 @@ the main (upstream) repository:
     ```
 
 [github]: https://github.com/BlueBrain/morphology-synthesis-api
-
-# Development Environment
-
-Please make sure to install the project requirements,
-see the [dependencies](./README.md#dependencies) section in top README.
-
-This section applies to both Python versions 2 and 3.
-
-## Setup
-
-It is recommended to use `virtualenv` to develop in a sandbox environment:
-
-```
-virtualenv venv
-. venv/bin/activate
-pip install -r tests/requirement_tests.txt
-```
-
-## Build
-
-Run the following command to build incrementally the project: `pip install -e .`
-
-## Test
-
-Run the following command to run the Python unit-tests: `pytest tests`
-
-## Coding conventions
-
-The code coverage of the Python unit-tests may not decrease over time.
-It means that every change must go with their corresponding Python unit-tests to
-validate the library behavior as well as to demonstrate the API usage. 
