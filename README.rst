@@ -10,9 +10,9 @@ Build morphology-sythesis-api docker image:
 
 .. code-block:: bash
 
-    docker build -t morphology-synthesis-api \
+    docker build -t morphology-synthesis-api . \
     --build-arg PROJECT_PATH=morphology-synthesis-api:local \
-    --build-arg COMMIT_SHA=$(git rev-parse HEAD)'
+    --build-arg COMMIT_SHA=$(git rev-parse HEAD)
 
 And run:
 
