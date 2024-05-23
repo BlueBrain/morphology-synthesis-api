@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
 """API entry points."""
 
 from typing import Annotated

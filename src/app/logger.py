@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
 """Logger configuration."""
 import logging.config
 from pathlib import Path

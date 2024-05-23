@@ -1,13 +1,12 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
-
 
 [project]
 name = "morphology-synthesis"
 version = "2023.09.22"
-description = "morphology-synthesis web API"
-readme = "README.rst"
+description = "Single Cell Morphology Synthesis REST API"
+readme = { file = "README.rst", content-type = "text/x-rst" }
 requires-python = ">=3.10"
 dependencies = [
     "fastapi",
@@ -18,11 +17,21 @@ dependencies = [
     "uvicorn[standard]",
 ]
 
+[project.urls]
+Homepage = "https://github.com/BlueBrain/morphology-synthesis-api"
+Repository = "https://github.com/BlueBrain/morphology-synthesis-api"
+Issues = "https://github.com/BlueBrain/morphology-synthesis-api/issues"
 
 [project.optional-dependencies]
 cli = [
     "click",
 ]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.black]
 line-length = 100

@@ -1,4 +1,0 @@
-global-exclude *.py[co] .DS_Store
-
-graft src/app/data/
-
